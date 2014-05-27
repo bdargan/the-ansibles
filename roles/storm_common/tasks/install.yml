@@ -1,7 +1,9 @@
 # file: roles/storm_common/tasks/install.yml
 
 - name: Storm | Download the storm source zip in /tmp if not yet present
-  command: wget https://dl.dropbox.com/u/133901206/storm-{{ storm_version }}.zip chdir=/tmp creates=/tmp/storm-{{ storm_version }}.zip
+  get_url:
+    url='https://github.com/apache/incubator-storm/archive/v0.9.1.0-incubating.zip'
+    dest=/tmp/storm-{{ storm_version }}.zip
 
 - name: Storm | Unzip the storm source in /usr/local/etc
   command: unzip /tmp/storm-{{ storm_version }}.zip chdir=/usr/local/etc creates=/usr/local/etc/storm-{{ storm_version }}

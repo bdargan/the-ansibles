@@ -2,39 +2,62 @@
 
 - name: JDK | Oracle JDK | Make sure openjdk is uninstalled
   apt: pkg=openjdk state=absent purge=true
-
-- name: JDK | Oracle JDK | Make a directory that holds the Java binaries
-  file: path=/usr/local/java state=directory
+  tags:
+    - java
 
 - name: JDK | Oracle JDK | Download Oracle JDK
-  command: wget --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' '{{ jdk_download_url }}' chdir=/tmp creates=/tmp/{{ jdk_download_filename }}
+  command:
+    wget --no-cookies --header 'Cookie:oraclelicense=accept-securebackup-cookie' '{{ jdk_download_url }}' 
+    chdir=/tmp
+    creates={{ java_install_dir }}/{{ jdk_version }}
+  tags:
+    - java
 
 - name: JDK | Oracle JDK | Unpack the compressed JDK binaries
-  command: tar -xvzf /tmp/{{ jdk_download_filename }} chdir=/usr/local/java creates=/usr/local/java/{{ jdk_version }}
+  command:
+    tar -xvzf /tmp/{{ jdk_download_filename }}
+    chdir={{ java_install_dir }}
+    creates={{ java_install_dir }}/{{ jdk_version }}
+  tags:
+    - java
 
-- name: JDK | Oracle JDK | Update the symbolic link to the JDK install
-  file: path=/usr/local/java/jdk src=/usr/local/java/{{ jdk_version }} state=link force=yes
+- name: JDK | Oracle JDK | Create symlink to JDK install
+  file:
+    path={{ java_home }}
+    src={{ java_install_dir }}/{{ jdk_version }}
+    state=link
+    force=yes
+  tags:
+    - java
 
-- name: JDK | Oracle JDK | Add the JDK binaries to the system path (/etc/profile)
-  lineinfile: "{{ item }}"
-  with_items:
-    - dest=/etc/profile regexp='^JAVA_HOME=/usr/local/java/jdk' line="JAVA_HOME=/usr/local/java/jdk" state=present
-    - dest=/etc/profile regexp='^PATH=.*JAVA_HOME.*' line="PATH=$PATH:$HOME/bin:$JAVA_HOME/bin" state=present
+- name: JDK | Oracle JDK | Add JDK binaries to the system path (/etc/profile.d/java.sh)
+  template:
+    src=etc_profile.d_java.sh
+    dest=/etc/profile.d/java.sh
+    mode=644
+    group=root owner=root
+  tags:
+    - java
 
+# Not really sure we need to update alternatives for all of the java tools
 - name: JDK | Oracle JDK | Inform the system where Oracle JDK is located
-  command: "{{ item }}"
+  command: update-alternatives --install "/usr/bin/{{ item }}" {{ item }} "{{ java_home }}/bin/{{ item }}" 1
   with_items:
-    - update-alternatives --install "/usr/bin/java" "java" "/usr/local/java/jdk/bin/java" 1
-    - update-alternatives --install "/usr/bin/javac" "javac" "/usr/local/java/jdk/bin/javac" 1
-    - update-alternatives --install "/usr/bin/javaws" "javaws" "/usr/local/java/jdk/bin/javaws" 1
-    - update-alternatives --install "/usr/bin/javah" "javah" "/usr/local/java/jdk/bin/javah" 1
-    - update-alternatives --install "/usr/bin/jar" "jar" "/usr/local/java/jdk/bin/jar" 1
+    - java
+    - javac
+    - javaws
+    - javah
+    - jar
+  tags:
+    - java
 
 - name: JDK | Oracle JDK | Inform the system that Oracle JDK must be the default
-  command: "{{ item }}"
+  command: update-alternatives --set "{{ item }}" "{{ java_home }}/bin/{{ item }}"
   with_items:
-    - update-alternatives --set java /usr/local/java/jdk/bin/java
-    - update-alternatives --set javac /usr/local/java/jdk/bin/javac
-    - update-alternatives --set javaws /usr/local/java/jdk/bin/javaws
-    - update-alternatives --set javah /usr/local/java/jdk/bin/javah
-    - update-alternatives --set jar /usr/local/java/jdk/bin/jar
+    - java
+    - javac
+    - javaws
+    - javah
+    - jar
+  tags:
+    - java
