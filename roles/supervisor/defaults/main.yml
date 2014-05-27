@@ -11,3 +11,5 @@ supervisor_logfile_backups: 10
 supervisor_loglevel: info
 supervisor_minfds: 1024
 supervisor_minprocs: 200
+supervisord_bin: /usr/local/bin/supervisord
+supervisord_conf: /etc/supervisord.conf

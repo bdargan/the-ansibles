@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+description     "supervisord"
+
+start on runlevel [345]
+stop on runlevel [!345]
+
+expect fork
+respawn
+
+exec {{ supervisord_bin }} -c /etc/supervisord.conf
