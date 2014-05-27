@@ -7,9 +7,25 @@
     - storm-nimbus
     - storm-ui
     - storm-supervisor
+  tags:
+    - storm-common
 
 - include: dependencies.yml
+  tags:
+    - storm-common
+
 - include: jzmq.yml
+  tags:
+    - storm-common
+
 - include: user.yml
+  tags:
+    - storm-common
+
 - include: install.yml
+  tags:
+    - storm-common
+
 - include: configure.yml
+  tags:
+    - storm-common

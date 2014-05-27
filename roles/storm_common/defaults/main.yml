@@ -1,10 +1,15 @@
 # file: roles/storm_common/defaults/main.yml
 
-storm_version: 0.9.0-wip21
+storm_version: 0.9.1.0-incubating
 storm_user: storm
 storm_group: storm
 storm_uid: 3060
 storm_gid: 3060
+
+storm_install_dir: /usr/local
+storm_local_dir: /app/storm
+storm_log_dir: /var/log/storm
+storm_home: "{{ storm_install_dir }}/storm"
 
 storm_zookeeper_servers:
   - "localhost"
@@ -19,6 +24,5 @@ storm_supervisor_slots_ports:
   - "6701"
   - "6702"
   - "6703"
-storm_local_dir: /app/storm
 storm_drpc_servers:
   - "localhost"

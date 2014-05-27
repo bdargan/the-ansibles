@@ -2,17 +2,46 @@
 
 - name: Storm | Download the storm source zip in /tmp if not yet present
   get_url:
-    url='https://github.com/apache/incubator-storm/archive/v0.9.1.0-incubating.zip'
-    dest=/tmp/storm-{{ storm_version }}.zip
+    url="https://github.com/apache/incubator-storm/archive/v{{ storm_version }}.tar.gz"
+    dest=/tmp/storm-{{ storm_version }}.tar.gz
+  tags:
+    - unpack
 
-- name: Storm | Unzip the storm source in /usr/local/etc
-  command: unzip /tmp/storm-{{ storm_version }}.zip chdir=/usr/local/etc creates=/usr/local/etc/storm-{{ storm_version }}
+- name: Storm | Create storm directory
+  file:
+    path={{ storm_install_dir }}/storm-{{ storm_version }}
+    state=directory
+    owner={{ storm_user}}
+    group={{ storm_group }}
+    mode=0755
+  tags:
+    - unpack
+
+- name: Storm | Extract the storm source
+  command:
+    tar --strip-components=1 -zxvf /tmp/storm-{{ storm_version }}.tar.gz
+    chdir={{ storm_install_dir }}/storm-{{ storm_version }}
+    creates={{ storm_install_dir }}/storm-{{ storm_version }}/bin
+  tags:
+    - unpack
 
 - name: Storm | Update the storm install permissions
-  file: path=/usr/local/etc/storm-{{ storm_version }} owner={{ storm_user }} group={{ storm_group }} state=directory recurse=yes
+  file:
+    path={{ storm_install_dir }}/storm-{{ storm_version }}
+    owner={{ storm_user }}
+    group={{ storm_group }}
+    state=directory recurse=yes
 
 - name: Storm | Update the symbolic link to the storm install
-  file: path=/usr/local/etc/storm src=/usr/local/etc/storm-{{ storm_version }} state=link force=yes
+  file:
+    path={{ storm_home }}
+    src={{ storm_install_dir }}/storm-{{ storm_version }}
+    state=link force=yes
 
 - name: Storm | Make sure the local working directory for storm is present
-  file: path={{ storm_local_dir }} owner={{ storm_user }} group={{ storm_group }} mode=0750 state=directory
+  file:
+    path={{ storm_local_dir }}
+    owner={{ storm_user }}
+    group={{ storm_group }}
+    mode=0750
+    state=directory

@@ -3,7 +3,6 @@
 - name: Storm | (jzmq) Gather additional facts
   set_fact:
     jzmq_home: /tmp/jzmq
-    java_home: "/usr/local/java/jdk"
   tags:
     - jzmq
 
