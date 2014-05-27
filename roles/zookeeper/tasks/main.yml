@@ -4,7 +4,21 @@
   supervisorctl: name=zookeeper state=stopped
 
 - include: dependencies.yml
+  tags:
+    - zookeeper
+
 - include: user.yml
+  tags:
+    - zookeeper
+
 - include: install.yml
+  tags:
+    - zookeeper
+
 - include: configure.yml
+  tags:
+    - zookeeper
+
 - include: supervise_zookeeper.yml
+  tags:
+    - zookeeper

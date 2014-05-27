@@ -18,7 +18,9 @@ supervisor.slots.ports:
   - {{port}}
 {% endfor %}
 
-storm.local.dir: {{storm_local_dir}}
+storm.local.dir: {{ storm_local_dir }}
+
+java.library.path: "/usr/local/lib:/opt/local/lib:/usr/lib"
 
 drpc.servers:
 {% for server in storm_drpc_servers %}

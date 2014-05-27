@@ -8,7 +8,7 @@
 
 - name: Storm | Make sure the storm user directory is present
   file:
-    path="/app/home/{{ storm_user }}"
+    path="/home/{{ storm_user }}"
     state=directory
 
 - name: Storm | Make sure the storm user is present
@@ -16,14 +16,14 @@
     uid={{ storm_uid }}
     name={{ storm_user }}
     group={{ storm_group }}
-    home="/app/home/{{ storm_user }}"
+    home="/home/{{ storm_user }}"
     shell=/bin/bash
     state=present
     comment="Storm user"
 
 - name: Storm | Set the right storm user directory permissions
   file:
-    path="/app/home/{{ storm_user }}"
+    path="/home/{{ storm_user }}"
     owner={{ storm_user }}
     group={{ storm_group }}
     mode=0700

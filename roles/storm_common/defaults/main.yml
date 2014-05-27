@@ -1,6 +1,6 @@
 # file: roles/storm_common/defaults/main.yml
 
-storm_version: 0.9.1.0-incubating
+storm_version: 0.9.1-incubating
 storm_user: storm
 storm_group: storm
 storm_uid: 3060

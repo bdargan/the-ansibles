@@ -2,32 +2,18 @@
 
 - name: Storm | Download the storm source zip in /tmp if not yet present
   get_url:
-    url="https://github.com/apache/incubator-storm/archive/v{{ storm_version }}.tar.gz"
-    dest=/tmp/storm-{{ storm_version }}.tar.gz
-  tags:
-    - unpack
-
-- name: Storm | Create storm directory
-  file:
-    path={{ storm_install_dir }}/storm-{{ storm_version }}
-    state=directory
-    owner={{ storm_user}}
-    group={{ storm_group }}
-    mode=0755
-  tags:
-    - unpack
+    url="http://mirror.switch.ch/mirror/apache/dist/incubator/storm/apache-storm-{{ storm_version }}/apache-storm-{{ storm_version }}.tar.gz"
+    dest=/tmp/apache-storm-{{ storm_version }}.tar.gz
 
 - name: Storm | Extract the storm source
   command:
-    tar --strip-components=1 -zxvf /tmp/storm-{{ storm_version }}.tar.gz
-    chdir={{ storm_install_dir }}/storm-{{ storm_version }}
-    creates={{ storm_install_dir }}/storm-{{ storm_version }}/bin
-  tags:
-    - unpack
+    tar -zxvf /tmp/apache-storm-{{ storm_version }}.tar.gz
+    chdir={{ storm_install_dir }}
+    creates={{ storm_install_dir }}/apache-storm-{{ storm_version }}/bin
 
 - name: Storm | Update the storm install permissions
   file:
-    path={{ storm_install_dir }}/storm-{{ storm_version }}
+    path={{ storm_install_dir }}/apache-storm-{{ storm_version }}
     owner={{ storm_user }}
     group={{ storm_group }}
     state=directory recurse=yes
@@ -35,7 +21,7 @@
 - name: Storm | Update the symbolic link to the storm install
   file:
     path={{ storm_home }}
-    src={{ storm_install_dir }}/storm-{{ storm_version }}
+    src={{ storm_install_dir }}/apache-storm-{{ storm_version }}
     state=link force=yes
 
 - name: Storm | Make sure the local working directory for storm is present

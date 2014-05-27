@@ -7,7 +7,8 @@ zookeeper_uid: 3040
 zookeeper_gid: 3040
 
 zookeeper_id: 1
-
+zookeeper_install_dir: /usr/local
+zookeeper_home: "{{ zookeeper_install_dir }}/zookeeper"
 zookeeper_data_dir: /app/zookeeper
 zookeeper_client_port: 2181
 zookeeper_tick_time: 2000
