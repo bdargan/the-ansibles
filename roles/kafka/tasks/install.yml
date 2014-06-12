@@ -10,13 +10,13 @@
   command: sed -i "s/2.8.0/{{ scala_version }}/g" bin/kafka-run-class.sh chdir=/usr/local/etc/kafka-{{ kafka_version }}
 
 - name: Kafka | Package the kafka source - pt. 1
-  shell: ./sbt update chdir=/usr/local/etc/kafka-{{ kafka_version }} creates=/usr/local/etc/kafka-{{ kafka_version }}/target
+  shell: ./gradlew jar chdir=/usr/local/etc/kafka-{{ kafka_version }} creates=/usr/local/etc/kafka-{{ kafka_version }}/target
 
-- name: Kafka | Package the kafka source - pt. 2
-  shell: ./sbt "++{{ scala_version }} package" chdir=/usr/local/etc/kafka-{{ kafka_version }}
+# - name: Kafka | Package the kafka source - pt. 2
+#   shell: ./sbt "++{{ scala_version }} package" chdir=/usr/local/etc/kafka-{{ kafka_version }}
 
-- name: Kafka | Package the kafka source - pt. 3
-  shell: ./sbt "++{{ scala_version }} assembly-package-dependency" chdir=/usr/local/etc/kafka-{{ kafka_version }}
+# - name: Kafka | Package the kafka source - pt. 3
+#   shell: ./sbt "++{{ scala_version }} assembly-package-dependency" chdir=/usr/local/etc/kafka-{{ kafka_version }}
 
 - name: Kafka | Update the kafka install permissions
   file: path=/usr/local/etc/kafka-{{ kafka_version }} owner={{ kafka_user }} group={{ kafka_group }} state=directory recurse=yes

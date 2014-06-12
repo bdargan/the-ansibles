@@ -1,10 +1,10 @@
 # file: roles/scale/tasks/main.yml
 
 - name: Scala | Download Scala
-  command: wget http://www.scala-lang.org/files/archive/scala-{{ scala_version }}.tgz chdir=/tmp creates=/tmp/scala-{{ scala_version }}_download.tgz
+  command: wget http://www.scala-lang.org/files/archive/scala-{{ scala_version }}.tgz chdir=/tmp creates=/tmp/scala-{{ scala_version }}.tgz
 
 - name: Scala | Unpack the compressed Scala binaries
-  command: tar -xvzf /tmp/scala-{{ scala_version }}.tgz chdir=/usr/local/java creates=/usr/local/java/scala-{{ scala_version }}_download
+  command: tar -xvzf /tmp/scala-{{ scala_version }}.tgz chdir=/usr/local/java creates=/usr/local/java/scala-{{ scala_version }}
 
 - name: Scala | Set the permissions on the Scala binaries
   file: path=/usr/local/java/scala-{{ scala_version }}/bin state=directory mode=0755 recurse=yes
