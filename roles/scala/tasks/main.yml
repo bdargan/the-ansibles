@@ -1,16 +1,16 @@
 # file: roles/scale/tasks/main.yml
 
 - name: Scala | Download Scala
-  command: wget http://www.scala-lang.org/files/archive/scala-{{ scala_version }}_download.tgz chdir=/tmp creates=/tmp/scala-{{ scala_version }}_download.tgz
+  command: wget http://www.scala-lang.org/files/archive/scala-{{ scala_version }}.tgz chdir=/tmp creates=/tmp/scala-{{ scala_version }}_download.tgz
 
 - name: Scala | Unpack the compressed Scala binaries
-  command: tar -xvzf /tmp/scala-{{ scala_version }}_download.tgz chdir=/usr/local/java creates=/usr/local/java/scala-{{ scala_version }}_download
+  command: tar -xvzf /tmp/scala-{{ scala_version }}.tgz chdir=/usr/local/java creates=/usr/local/java/scala-{{ scala_version }}_download
 
 - name: Scala | Set the permissions on the Scala binaries
-  file: path=/usr/local/java/scala-{{ scala_version }}_download/bin state=directory mode=0755 recurse=yes
+  file: path=/usr/local/java/scala-{{ scala_version }}/bin state=directory mode=0755 recurse=yes
 
 - name: Scala | Update the symbolic link to the Scala install
-  file: path=/usr/local/java/scala src=/usr/local/java/scala-{{ scala_version }}_download state=link force=yes
+  file: path=/usr/local/java/scala src=/usr/local/java/scala-{{ scala_version }} state=link force=yes
 
 - name: Scala | Add the Scala binary to the system path (/etc/profile)
   lineinfile: "{{ item }}"
