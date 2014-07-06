@@ -1,7 +1,7 @@
 # file: roles/jdk/defaults/main.yml
 
-jdk_download_url: "http://download.oracle.com/otn-pub/java/jdk/7u60-b19/jdk-7u60-linux-x64.tar.gz"
-jdk_download_filename: jdk-7u60-linux-x64.tar.gz
+jdk_download_url: "http://download.oracle.com/otn-pub/java/jdk/7u60-b19/jdk-7u60-linux-i586.tar.gz"
+jdk_download_filename: jdk-7u60-linux-i586.tar.gz
 jdk_version: jdk1.7.0_60
 java_home: /usr/local/java
 java_install_dir: /usr/local
