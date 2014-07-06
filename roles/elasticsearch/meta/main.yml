@@ -1,7 +1,7 @@
 #file: roles/elasticsearch/meta/main.yml
 
 dependencies:
-  - { role: hostname }
+#  - { role: hostname }, wtf
   - { role: build }
   - { role: jdk }
   - { role: supervisor }
