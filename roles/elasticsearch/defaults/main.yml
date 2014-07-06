@@ -25,7 +25,7 @@ elasticsearch_local_dir: /app/elasticsearch
 #elasticsearch_path_conf: /usr/local/etc/elasticsearch/config
 elasticsearch_path_data: /app/elasticsearch/data
 elasticsearch_path_work: /app/elasticsearch/work
-elasticsearch_path_logs: /app/elasticsearch/logs
+elasticsearch_path_logs: /var/log/elasticsearch
 #elasticsearch_path_plugins: /path/to/plugins
 
 ######################### elasticsearch.yml - Plugin ##########################
